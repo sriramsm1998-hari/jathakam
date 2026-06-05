@@ -1,54 +1,41 @@
-function getLocation() {
-
-    if (!navigator.geolocation) {
-        alert("Geolocation not supported");
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-
-            calculateSunrise(lat, lng);
-
-        },
-        function(error) {
-            alert("Location access denied");
-        }
-    );
+body{
+    font-family:Arial;
+    background:#f4f4f4;
+    padding:20px;
 }
 
-async function calculateSunrise(lat, lng) {
+.container{
+    max-width:500px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+}
 
-    const date =
-        document.getElementById("date").value;
+h1{
+    text-align:center;
+}
 
-    if(!date){
-        alert("Select date");
-        return;
-    }
+label{
+    display:block;
+    margin-top:15px;
+}
 
-    const url =
-`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=${date}&formatted=0`;
+input{
+    width:100%;
+    padding:10px;
+}
 
-    const response = await fetch(url);
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    cursor:pointer;
+}
 
-    const data = await response.json();
-
-    const sunriseUTC = data.results.sunrise;
-
-    const sunriseLocal =
-        new Date(sunriseUTC).toLocaleTimeString(
-            "en-IN",
-            {
-                hour:'2-digit',
-                minute:'2-digit',
-                second:'2-digit'
-            }
-        );
-
-    document.getElementById("result").innerHTML =
-        `Sunrise: ${sunriseLocal}`;
+#result{
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
 }
